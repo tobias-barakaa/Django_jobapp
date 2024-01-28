@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 
 # Create your views here.
 job_title = [
@@ -10,16 +11,20 @@ job_title = [
 
 job_descripton = [
     "First job description",
-     "second job description"
+     "second job description",
+     "third job description"
 ]
 def hello(request):
     return HttpResponse("Hello World")
 
 def job_detail(request, id):
-    if id == 0:
-        return redirect('/')
-    return_html = f"h1>{job_title[id]}</h1> <h3>{job_description[id]}</h3>"
-    return HttpResponse(return_html)
+    try:
+        if id == 0:
+            return redirect(reverse('job_home'))
+        return_html = f"h1>{job_title[id]}</h1> <h3>{job_descripton[id]}</h3>"
+        return HttpResponse(return_html)
+    except:
+        return HttpResponse("Invalid Job Id")
 
 
 
