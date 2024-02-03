@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
+from django.template import loader
+
+class TempClass:
+    x = 5
 
 # Create your views here.
 job_title = [
@@ -35,5 +39,13 @@ def job_list(request):
         list_of_jobs += f"<li><a href='job/{job_id}'>{j}</a></li>"
     list_of_jobs += "</ul>"
     return HttpResponse(list_of_jobs)
+
+def hello(request):
+    is_authenticated = False
+    list = ["alpha", "beta"]
+    temp = TempClass()
+    context ={"name": "John Doe", "age": 10, "first_list":
+        list, "temp_object": temp, "is_authenticated": is_authenticated}
+    return render(request, "app/hello.html", context)
     
 
