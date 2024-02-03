@@ -41,11 +41,25 @@ def job_list(request):
     return HttpResponse(list_of_jobs)
 
 def hello(request):
-    is_authenticated = False
-    list = ["alpha", "beta"]
-    temp = TempClass()
-    context ={"name": "John Doe", "age": 10, "first_list":
-        list, "temp_object": temp, "is_authenticated": is_authenticated}
-    return render(request, "app/hello.html", context)
+    # is_authenticated = False
+    # list = ["alpha", "beta"]
+    # temp = TempClass()
+    # context ={"name": "John Doe", "age": 10, "first_list":
+    #     list, "temp_object": temp, "is_authenticated": is_authenticated}
+    # return render(request, "app/job_list.html", context)
+    context={"job_title_list": job_title}
+    return render(request, "app/job_list.html", context)
     
+    
+def job_detail(request, id):
+    print(type(id))
+    try:
+        if id == 0:
+            return redirect(reverse('job_home'))
+        # return_html = f"<h1>{job_title[id]}</h1> <h3>{job_descripton[id]}</h3>"
+        # return HttpResponse(return_html)
+        context ={"job_title": job_title[id], "job_description": job_descripton[id]}
+        return render(request, "app/job_detail.html", context)
+    except:
+        return HttpResponse("Invalid Job Id")
 
