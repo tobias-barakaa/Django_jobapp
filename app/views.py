@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from django.template import loader
+from app.models import JobPost;
 
 class TempClass:
     x = 5
@@ -33,12 +34,15 @@ def job_detail(request, id):
 
 
 def job_list(request):
-    list_of_jobs = "<ul>"
-    for j in job_title:
-        job_id = job_title.index(j)
-        list_of_jobs += f"<li><a href='job/{job_id}'>{j}</a></li>"
-    list_of_jobs += "</ul>"
-    return HttpResponse(list_of_jobs)
+    jobs = JobPost.objects.all()
+    context = {"jobs": jobs}
+    return render(request, "app/job_list.html", context)
+    # list_of_jobs = "<ul>"
+    # for j in job_title:
+    #     job_id = job_title.index(j)
+    #     list_of_jobs += f"<li><a href='job/{job_id}'>{j}</a></li>"
+    # list_of_jobs += "</ul>"
+    # return HttpResponse(list_of_jobs)
 
 def hello(request):
     # is_authenticated = False
@@ -58,7 +62,10 @@ def job_detail(request, id):
             return redirect(reverse('job_home'))
         # return_html = f"<h1>{job_title[id]}</h1> <h3>{job_descripton[id]}</h3>"
         # return HttpResponse(return_html)
-        context ={"job_title": job_title[id], "job_description": job_descripton[id]}
+        #
+        job = JobPost.objects.get(id=id)
+        context ={"job": job}
+        
         return render(request, "app/job_detail.html", context)
     except:
         return HttpResponse("Invalid Job Id")

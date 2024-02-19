@@ -27,6 +27,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+config = {
+    'user':
+    'root',
+    'password':
+    'password',
+    'host':
+    'localhost',
+    'database':
+    'jobapp'
+}
+ 
 
 # Application definition
 
